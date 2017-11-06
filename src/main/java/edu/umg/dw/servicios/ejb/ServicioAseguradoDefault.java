@@ -7,9 +7,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.logging.Logger;
+
+import static java.util.Objects.isNull;
 
 @Stateless
 public class ServicioAseguradoDefault implements ServicioAsegurado {
+
+    private Logger logger = Logger.getLogger(ServicioAseguradoDefault.class.getName());
 
     @PersistenceContext
     EntityManager entityManager;
@@ -24,6 +29,7 @@ public class ServicioAseguradoDefault implements ServicioAsegurado {
     @Override
     public Asegurado obtenerAsegurado(int id) {
         return entityManager.createNamedQuery("Asegurado.findById", Asegurado.class)
+                .setParameter("id", id)
                 .getSingleResult();
     }
 
@@ -37,19 +43,24 @@ public class ServicioAseguradoDefault implements ServicioAsegurado {
     }
 
     @Override
-    public boolean desactivarAsegurado(int id) {
+    public Asegurado actualizarAsegurado(Asegurado asegurado) {
 
-        Asegurado asegurado = obtenerAsegurado(id);
-
-        if (asegurado != null) {
-            asegurado.setActivo((short) 0);
-
-            entityManager.merge(asegurado);
-            entityManager.flush();
-
-            return true;
+        if (isNull(asegurado)) {
+            logger.info("asegurado es nulo");
+            return null;
         }
 
-        return false;
+        Asegurado busqueda = obtenerAsegurado(asegurado.getId());
+
+        if (isNull(busqueda) || !(busqueda.equals(asegurado))) {
+            logger.info("no encontre al asegurado en cuestion");
+            return null;
+        }
+
+        entityManager.merge(asegurado);
+        entityManager.flush();;
+
+        return asegurado;
     }
+
 }

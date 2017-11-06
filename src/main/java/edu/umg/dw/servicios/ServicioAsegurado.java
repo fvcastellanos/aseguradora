@@ -10,5 +10,5 @@ public interface ServicioAsegurado {
     List<Asegurado> obtenerAsegurados();
     Asegurado obtenerAsegurado(int id);
     Asegurado crearAsegurado(Asegurado asegurado);
-    boolean desactivarAsegurado(int id);
+    Asegurado actualizarAsegurado(Asegurado asegurado);
 }

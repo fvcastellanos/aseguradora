@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="asegurado")
 @NamedQueries({
-		@NamedQuery(name="Asegurado.findAll", query="SELECT a FROM Asegurado a"),
+		@NamedQuery(name="Asegurado.findAll", query="SELECT a FROM Asegurado a where a.activo = 1"),
 		@NamedQuery(name="Asegurado.findById", query = "select a from Asegurado a where a.id = :id")
 })
 
@@ -48,22 +48,6 @@ public class Asegurado implements Serializable {
 	private List<Poliza> polizas;
 
 	public Asegurado() {
-	}
-
-	private Asegurado(Builder builder) {
-		setId(builder.id);
-		setActivo(builder.activo);
-		setFechaNacimiento(builder.fechaNacimiento);
-		setPrimerApellido(builder.primerApellido);
-		setPrimerNombre(builder.primerNombre);
-		setSegundoApellido(builder.segundoApellido);
-		setSegundoNombre(builder.segundoNombre);
-		setTelefono(builder.telefono);
-		setPolizas(builder.polizas);
-	}
-
-	public static Builder newBuilder() {
-		return new Builder();
 	}
 
 	public int getId() {
@@ -152,68 +136,41 @@ public class Asegurado implements Serializable {
 		return poliza;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-	public static final class Builder {
-		private int id;
-		private int activo;
-		private Date fechaNacimiento;
-		private String primerApellido;
-		private String primerNombre;
-		private String segundoApellido;
-		private String segundoNombre;
-		private String telefono;
-		private List<Poliza> polizas;
+		Asegurado asegurado = (Asegurado) o;
 
-		private Builder() {
-		}
-
-		public Builder id(int val) {
-			id = val;
-			return this;
-		}
-
-		public Builder activo(int val) {
-			activo = val;
-			return this;
-		}
-
-		public Builder fechaNacimiento(Date val) {
-			fechaNacimiento = val;
-			return this;
-		}
-
-		public Builder primerApellido(String val) {
-			primerApellido = val;
-			return this;
-		}
-
-		public Builder primerNombre(String val) {
-			primerNombre = val;
-			return this;
-		}
-
-		public Builder segundoApellido(String val) {
-			segundoApellido = val;
-			return this;
-		}
-
-		public Builder segundoNombre(String val) {
-			segundoNombre = val;
-			return this;
-		}
-
-		public Builder telefono(String val) {
-			telefono = val;
-			return this;
-		}
-
-		public Builder polizas(List<Poliza> val) {
-			polizas = val;
-			return this;
-		}
-
-		public Asegurado build() {
-			return new Asegurado(this);
-		}
+		if (id != asegurado.id) return false;
+		if (activo != asegurado.activo) return false;
+		if (fechaNacimiento != null ? !fechaNacimiento.equals(asegurado.fechaNacimiento) : asegurado.fechaNacimiento != null)
+			return false;
+		if (primerApellido != null ? !primerApellido.equals(asegurado.primerApellido) : asegurado.primerApellido != null)
+			return false;
+		if (primerNombre != null ? !primerNombre.equals(asegurado.primerNombre) : asegurado.primerNombre != null)
+			return false;
+		if (segundoApellido != null ? !segundoApellido.equals(asegurado.segundoApellido) : asegurado.segundoApellido != null)
+			return false;
+		if (segundoNombre != null ? !segundoNombre.equals(asegurado.segundoNombre) : asegurado.segundoNombre != null)
+			return false;
+		if (telefono != null ? !telefono.equals(asegurado.telefono) : asegurado.telefono != null) return false;
+		return polizas != null ? polizas.equals(asegurado.polizas) : asegurado.polizas == null;
 	}
+
+	@Override
+	public int hashCode() {
+		int result = id;
+		result = 31 * result + activo;
+		result = 31 * result + (fechaNacimiento != null ? fechaNacimiento.hashCode() : 0);
+		result = 31 * result + (primerApellido != null ? primerApellido.hashCode() : 0);
+		result = 31 * result + (primerNombre != null ? primerNombre.hashCode() : 0);
+		result = 31 * result + (segundoApellido != null ? segundoApellido.hashCode() : 0);
+		result = 31 * result + (segundoNombre != null ? segundoNombre.hashCode() : 0);
+		result = 31 * result + (telefono != null ? telefono.hashCode() : 0);
+		result = 31 * result + (polizas != null ? polizas.hashCode() : 0);
+		return result;
+	}
+
 }

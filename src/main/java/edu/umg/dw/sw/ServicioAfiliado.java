@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -29,23 +28,17 @@ public class ServicioAfiliado {
     }
 
     @WebMethod
-    public Asegurado crearAsegurado(@WebParam String primerNombre,
-                                    @WebParam String segundoNombre,
-                                    @WebParam String primerApellido,
-                                    @WebParam String segundoApellido,
-                                    @WebParam String telefono,
-                                    @WebParam Date fechaNacimiento) {
-
-        Asegurado asegurado = Asegurado.newBuilder()
-                .primerNombre(primerNombre)
-                .primerApellido(primerApellido)
-                .segundoNombre(segundoNombre)
-                .segundoApellido(segundoApellido)
-                .telefono(telefono)
-                .fechaNacimiento(fechaNacimiento)
-                .activo(1)
-                .build();
-
+    public Asegurado crearAsegurado(@WebParam Asegurado asegurado) {
         return servicioAsegurado.crearAsegurado(asegurado);
+    }
+
+    @WebMethod
+    public Asegurado obtenerAsegurado(@WebParam int id) {
+        return servicioAsegurado.obtenerAsegurado(id);
+    }
+
+    @WebMethod
+    public Asegurado actualizarAsegurado(@WebParam Asegurado asegurado) {
+        return servicioAsegurado.actualizarAsegurado(asegurado);
     }
 }
