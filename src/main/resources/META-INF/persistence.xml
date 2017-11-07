@@ -4,18 +4,10 @@
 	<persistence-unit name="aseguradora" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <jta-data-source>mysql-jdbc-jta-aseguradora</jta-data-source>
-		<class>edu.umg.dw.model.Asegurado</class>
+		<!--<class>edu.umg.dw.model.Asegurado</class>-->
 		<class>edu.umg.dw.model.Boleta</class>
 		<class>edu.umg.dw.model.ConsultaCobertura</class>
 		<class>edu.umg.dw.model.Poliza</class>
 		<class>edu.umg.dw.model.Proveedor</class>
-<!--
-		<properties>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/aseguradora" />
-            <property name="javax.persistence.jdbc.user" value="aseguradora" />
-            <property name="javax.persistence.jdbc.password" value="aseguradora" />
-        </properties>
--->
 	</persistence-unit>
 </persistence>

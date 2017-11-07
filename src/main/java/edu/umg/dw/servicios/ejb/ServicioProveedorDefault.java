@@ -1,7 +1,6 @@
 package edu.umg.dw.servicios.ejb;
 
 
-import edu.umg.dw.dao.ProveedorDao;
 import edu.umg.dw.model.Proveedor;
 import edu.umg.dw.servicios.ServicioProveedor;
 
@@ -15,8 +14,6 @@ public class ServicioProveedorDefault implements ServicioProveedor {
 
     private Logger logger = Logger.getLogger(ServicioProveedorDefault.class.getName());
 
-    @Inject
-    private ProveedorDao proveedorDao;
 
     @Override
     public List<Proveedor> obtenerProveedores() {
@@ -31,6 +28,6 @@ public class ServicioProveedorDefault implements ServicioProveedor {
 
         return Lists.newArrayList(proveedor);
 */
-        return proveedorDao.obtenerProveedores();
+        return null;
     }
 }
