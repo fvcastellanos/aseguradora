@@ -44,17 +44,11 @@ public class Poliza implements Serializable {
     @Column(name="fecha_nacimiento")
     private Date fechaNacimiento;
 
-    @Column(name="primer_nombre")
-    private String primerNombre;
+    @Column(name="nombres")
+    private String nombres;
 
-    @Column(name="segundo_nombre")
-    private String segundoNombre;
-
-    @Column(name="primer_apellido")
-    private String primerApellido;
-
-    @Column(name="segundo_apellido")
-    private String segundoApellido;
+    @Column(name="apellidos")
+    private String apellidos;
 
     private String telefono;
 
@@ -145,38 +139,6 @@ public class Poliza implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getPrimerNombre() {
-        return primerNombre;
-    }
-
-    public void setPrimerNombre(String primerNombre) {
-        this.primerNombre = primerNombre;
-    }
-
-    public String getSegundoNombre() {
-        return segundoNombre;
-    }
-
-    public void setSegundoNombre(String segundoNombre) {
-        this.segundoNombre = segundoNombre;
-    }
-
-    public String getPrimerApellido() {
-        return primerApellido;
-    }
-
-    public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
-    }
-
-    public String getSegundoApellido() {
-        return segundoApellido;
-    }
-
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
-    }
-
     public String getTelefono() {
         return telefono;
     }
@@ -185,6 +147,23 @@ public class Poliza implements Serializable {
         this.telefono = telefono;
     }
 
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+    /*
     public Boleta addBoleta(Boleta boleta) {
 		getBoletas().add(boleta);
 		boleta.setPoliza(this);
@@ -198,4 +177,5 @@ public class Poliza implements Serializable {
 
 		return boleta;
 	}
+*/
 }

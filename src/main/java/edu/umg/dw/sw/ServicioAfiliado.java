@@ -1,5 +1,6 @@
 package edu.umg.dw.sw;
 
+import edu.umg.dw.model.Boleta;
 import edu.umg.dw.model.Poliza;
 import edu.umg.dw.servicios.ServicioPoliza;
 
@@ -19,21 +20,32 @@ public class ServicioAfiliado {
 
     @WebMethod
     public List<Poliza> obtenerPolizas() {
-        return null;
+        return servicioPoliza.obtenerPolizas();
     }
 
     @WebMethod
     public Poliza obtenerPoliza(@WebParam int id) {
+        try {
+            return servicioPoliza.obtenerPoliza(id);
+        } catch (Exception ex) {
+
+        }
+
         return null;
+
     }
 
     @WebMethod
     public Poliza crearPoliza(@WebParam Poliza poliza) {
-        return null;
+        return servicioPoliza.crearPoliza(poliza);
     }
 
     @WebMethod
     public Poliza actualizarPoliza(@WebParam Poliza poliza) {
-        return null;
+        return servicioPoliza.actualizarPoliza(poliza);
+    }
+
+    public List<Boleta> obtenerBoletasPoliza(@WebParam int polizaId) {
+        return servicioPoliza.obtenerBoletasPoliza(polizaId);
     }
 }

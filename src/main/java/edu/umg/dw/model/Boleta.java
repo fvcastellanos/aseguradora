@@ -12,7 +12,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name="boleta")
-@NamedQuery(name="Boleta.findAll", query="SELECT b FROM Boleta b")
+@NamedQueries({
+        @NamedQuery(name="Boleta.findAll", query="SELECT b FROM Boleta b"),
+        @NamedQuery(name="Boleta.boletasPoliza", query = "select b from Boleta b where b.poliza.id = :polizaId")
+
+})
 public class Boleta implements Serializable {
 	private static final long serialVersionUID = 1L;
 

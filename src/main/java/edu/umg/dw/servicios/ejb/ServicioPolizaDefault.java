@@ -1,12 +1,17 @@
 package edu.umg.dw.servicios.ejb;
 
+import edu.umg.dw.model.Boleta;
 import edu.umg.dw.model.Poliza;
 import edu.umg.dw.servicios.ServicioPoliza;
+import org.apache.commons.lang3.time.DateUtils;
 
 import javax.ejb.Stateless;
-import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -15,76 +20,6 @@ import static java.util.Objects.isNull;
 public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliza {
 
     private Logger logger = Logger.getLogger(ServicioPolizaDefault.class.getName());
-
-/*
-    @Override
-    public List<Asegurado> obtenerAsegurados() {
-
-        return entityManager.createNamedQuery("Asegurado.findAll", Asegurado.class)
-                .getResultList();
-    }
-
-    @Override
-    public Asegurado obtenerAsegurado(int id) {
-        return entityManager.createNamedQuery("Asegurado.findById", Asegurado.class)
-                .setParameter("id", id)
-                .getSingleResult();
-    }
-
-    @Override
-    public Asegurado crearAsegurado(Asegurado asegurado) {
-
-        entityManager.persist(asegurado);
-        entityManager.flush();
-
-        return asegurado;
-    }
-
-    @Override
-    public Asegurado actualizarAsegurado(Asegurado asegurado) {
-
-        if (isNull(asegurado)) {
-            logger.info("asegurado es nulo");
-            return null;
-        }
-
-        Asegurado busqueda = obtenerAsegurado(asegurado.getId());
-
-        if (isNull(busqueda)) {
-            logger.info("no encontre al asegurado en cuestion");
-            return null;
-        }
-
-        entityManager.merge(asegurado);
-        entityManager.flush();;
-
-        return asegurado;
-    }
-
-    @Override
-    public List<Poliza> obtenerPolizasAsegurado(int idAsegurado) {
-
-        return entityManager.createNamedQuery("Asegurado.obtenerPolizas", Poliza.class)
-                .setParameter("id", idAsegurado)
-                .getResultList();
-    }
-
-    @Override
-    public Poliza crearPolizaAsegurado(int idAsegurado, Poliza poliza) {
-
-        Asegurado asegurado = obtenerAsegurado(idAsegurado);
-
-        if (isNull(asegurado)) {
-            return null;
-        }
-
-        poliza.setAsegurado(asegurado);
-        entityManager.persist(poliza);
-        entityManager.flush();
-
-        return poliza;
-    }
-*/
 
     @Override
     public List<Poliza> obtenerPolizas() {
@@ -100,31 +35,88 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
     }
 
     @Override
+    @Transactional
     public Poliza crearPoliza(Poliza poliza) {
 
-        Poliza p = obtenerPoliza(poliza.getNoPoliza());
+        try {
+            Poliza p = obtenerPolizaPorNumero(poliza.getNoPoliza());
 
-        if (!isNull(p)) {
+            if (!isNull(p)) {
+                return null;
+            }
+
+            poliza.setTipo("M");
+            if (poliza.getNoPagos() == 0) {
+                poliza.setNoPagos(1);
+            }
+
+            entityManager.persist(poliza);
+
+            crearBoletas(poliza);
+
+            entityManager.flush();
+
+            return poliza;
+
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "no se pudo crear la poliza", ex);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Poliza actualizarPoliza(Poliza poliza) {
+
+        Poliza p = obtenerPoliza(poliza.getId());
+
+        if (isNull(p)) {
             return null;
         }
 
-        // Hacer validaciones y agregar pagos
-
-        entityManager.persist(poliza);
+        entityManager.merge(poliza);
         entityManager.flush();
 
         return poliza;
     }
 
     @Override
-    public Poliza actualizarPoliza(Poliza poliza) {
-        return null;
+    public List<Boleta> obtenerBoletasPoliza(int polizaId) {
+
+        return entityManager.createNamedQuery("Boleta.boletasPoliza", Boleta.class)
+                .setParameter("polizaId", polizaId)
+                .getResultList();
     }
 
-    private Poliza obtenerPoliza(String noPoliza) {
+    // ---------------------------------------
+
+    private Poliza obtenerPolizaPorNumero(String noPoliza) {
+
         return entityManager.createNamedQuery("Poliza.obtenerNumeroPoliza", Poliza.class)
                 .setParameter("poliza", noPoliza)
-                .getSingleResult();
+                .getResultList()
+                .stream()
+                .findFirst().orElse(null);
     }
+
+    private void crearBoletas(Poliza poliza) {
+
+        Date fechaPago = DateUtils.addDays(poliza.getFechaEmision(), 30);
+
+        for (int i = 0; i < poliza.getNoPagos(); i++) {
+            Boleta boleta = new Boleta();
+
+            boleta.setAnio(DateUtils.toCalendar(fechaPago).get(Calendar.YEAR));
+            boleta.setMes(DateUtils.toCalendar(fechaPago).get(Calendar.MONTH) + 1);
+            boleta.setCodigo(UUID.randomUUID().toString());
+            boleta.setPoliza(poliza);
+            boleta.setFechaPago(fechaPago);
+
+            fechaPago = DateUtils.addDays(fechaPago, 30);
+            entityManager.persist(boleta);
+        }
+
+    }
+
 
 }

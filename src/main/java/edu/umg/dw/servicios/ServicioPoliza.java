@@ -1,5 +1,6 @@
 package edu.umg.dw.servicios;
 
+import edu.umg.dw.model.Boleta;
 import edu.umg.dw.model.Poliza;
 
 import javax.ejb.Local;
@@ -11,4 +12,5 @@ public interface ServicioPoliza {
     Poliza obtenerPoliza(int id);
     Poliza crearPoliza(Poliza poliza);
     Poliza actualizarPoliza(Poliza poliza);
+    List<Boleta> obtenerBoletasPoliza(int polizaId);
 }
