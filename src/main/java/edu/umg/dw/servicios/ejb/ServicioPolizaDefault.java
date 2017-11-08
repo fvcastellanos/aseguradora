@@ -1,5 +1,6 @@
 package edu.umg.dw.servicios.ejb;
 
+import edu.umg.dw.dominio.Resultado;
 import edu.umg.dw.model.Boleta;
 import edu.umg.dw.model.Poliza;
 import edu.umg.dw.servicios.ServicioPoliza;
@@ -14,6 +15,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static edu.umg.dw.dominio.Resultado.conError;
+import static edu.umg.dw.dominio.Resultado.ok;
 import static java.util.Objects.isNull;
 
 @Stateless
@@ -22,16 +25,26 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
     private Logger logger = Logger.getLogger(ServicioPolizaDefault.class.getName());
 
     @Override
-    public List<Poliza> obtenerPolizas() {
-        return entityManager.createNamedQuery("Poliza.findAll", Poliza.class)
-                .getResultList();
+    public Resultado<String, List<Poliza>> obtenerPolizas() {
+        try {
+
+            List<Poliza> listado = entityManager.createNamedQuery("Poliza.findAll", Poliza.class)
+                    .getResultList();
+            return ok(listado);
+
+        } catch (Exception ex) {
+            return conError(ex.getMessage());
+        }
     }
 
     @Override
     public Poliza obtenerPoliza(int id) {
-        return obtenerPolizas().stream()
-                .filter(poliza -> poliza.getId() == id)
-                .findFirst().orElseGet(null);
+
+        return entityManager.createNamedQuery("Poliza.obtenerPorId", Poliza.class)
+                .setParameter("id", id)
+                .getResultList()
+                .stream()
+                .findFirst().orElse(null);
     }
 
     @Override
@@ -45,7 +58,6 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
                 return null;
             }
 
-            poliza.setTipo("M");
             if (poliza.getNoPagos() == 0) {
                 poliza.setNoPagos(1);
             }
@@ -74,6 +86,8 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
             return null;
         }
 
+
+
         entityManager.merge(poliza);
         entityManager.flush();
 
@@ -91,7 +105,6 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
     // ---------------------------------------
 
     private Poliza obtenerPolizaPorNumero(String noPoliza) {
-
         return entityManager.createNamedQuery("Poliza.obtenerNumeroPoliza", Poliza.class)
                 .setParameter("poliza", noPoliza)
                 .getResultList()
@@ -115,8 +128,5 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
             fechaPago = DateUtils.addDays(fechaPago, 30);
             entityManager.persist(boleta);
         }
-
     }
-
-
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name="poliza")
 @NamedQueries({
 		@NamedQuery(name="Poliza.findAll", query="SELECT p FROM Poliza p"),
+		@NamedQuery(name="Poliza.obtenerPorId", query="SELECT p FROM Poliza p where p.id = :id"),
         @NamedQuery(name="Poliza.obtenerNumeroPoliza", query="SELECT p FROM Poliza p where p.noPoliza = :poliza"),
 })
 public class Poliza implements Serializable {
@@ -38,8 +39,6 @@ public class Poliza implements Serializable {
 
 	@Column(name="no_poliza")
 	private String noPoliza;
-
-	private String tipo;
 
     @Column(name="fecha_nacimiento")
     private Date fechaNacimiento;
@@ -113,14 +112,6 @@ public class Poliza implements Serializable {
 
 	public void setNoPoliza(String noPoliza) {
 		this.noPoliza = noPoliza;
-	}
-
-	public String getTipo() {
-		return this.tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 	public List<Boleta> getBoletas() {
