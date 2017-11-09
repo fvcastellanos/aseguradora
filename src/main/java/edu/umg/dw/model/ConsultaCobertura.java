@@ -1,14 +1,19 @@
 package edu.umg.dw.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 
 /**
  * The persistent class for the consulta_cobertura database table.
- * 
+ *
  */
 @Entity
 @Table(name="consulta_cobertura")
@@ -31,6 +36,13 @@ public class ConsultaCobertura implements Serializable {
 	private String poliza;
 
 	public ConsultaCobertura() {
+	}
+
+	public ConsultaCobertura(final String autorizacion, final Date fechaConsulta, final String nitProveedor, final String poliza) {
+		this.autorizacion = autorizacion;
+		this.fechaConsulta = fechaConsulta;
+		this.nitProveedor = nitProveedor;
+		this.poliza = poliza;
 	}
 
 	public int getId() {
