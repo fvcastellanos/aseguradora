@@ -81,9 +81,9 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
 
         try {
             ContextoProveedor contextoProveedor = new ContextoProveedor(proveedor.getNit());
+            contextoProveedor.setProveedor(proveedor);
 
-            return cargarProveedor(contextoProveedor)
-                    .despues(this::actualizarProveedor)
+            return actualizarProveedor(contextoProveedor)
                     .map(ContextoProveedor::getProveedor);
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "No se puede agregar el proveedor ", ex);
@@ -132,9 +132,10 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
     private Resultado<String, ContextoProveedor> actualizarProveedor(ContextoProveedor contextoProveedor) {
         Proveedor proveedor = contextoProveedor.getProveedor();
 
-        proveedor = entityManager.merge(proveedor);
+        entityManager.merge(proveedor);
         entityManager.flush();
 
+        proveedor = entityManager.find(Proveedor.class, proveedor.getId());
         contextoProveedor.setProveedor(proveedor);
 
         return ok(contextoProveedor);
@@ -152,5 +153,17 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
 
         contextoProveedor.setProveedor(contenedor.get());
         return ok(contextoProveedor);
+    }
+
+    private Resultado<String, ContextoProveedor> verificarProveedorExistente(ContextoProveedor contextoProveedor) {
+        String nit = contextoProveedor.getNit();
+
+        Optional<Proveedor> contenedor = buscarProveedor(nit);
+        if (contenedor.isPresent()) {
+            return conError("Proveedor existente");
+        }
+
+        return ok(contextoProveedor);
+
     }
 }

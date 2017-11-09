@@ -65,10 +65,11 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
             contextoPoliza.setPoliza(poliza);
 
             return verificarExistenciaPoliza(contextoPoliza)
-                .despues(this::generarBoletas)
-                .despues(this::guardarNuevaPoliza)
-                .despues(this::obtenerPoliza)
-                .map(ContextoPoliza::getPoliza);
+                    .despues(this::generarBoletas)
+                    .despues(this::guardarNuevaPoliza)
+                    .despues(this::guardarBoletas)
+                    .despues(this::obtenerPoliza)
+                    .map(ContextoPoliza::getPoliza);
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "no se pudo crear la poliza", ex);
@@ -89,6 +90,7 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
                     .despues(this::eliminarBoletas)
                     .despues(this::generarBoletas)
                     .despues(this::actualizarPoliza)
+                    .despues(this::guardarBoletas)
                     .map(ContextoPoliza::getPoliza);
 
         } catch (Exception ex) {
@@ -221,14 +223,10 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
     private Resultado<String, ContextoPoliza> actualizarPoliza(ContextoPoliza contextoPoliza) {
 
         Poliza poliza = contextoPoliza.getPolizaModificada();
-        poliza = entityManager.merge(poliza);
-
-        contextoPoliza.getBoletas().stream()
-                .forEach(boleta -> {
-                    entityManager.merge(boleta);
-                });
-
+        entityManager.merge(poliza);
         entityManager.flush();
+
+        poliza = entityManager.find(Poliza.class, poliza.getId());
 
         contextoPoliza.setPoliza(poliza);
 
@@ -290,9 +288,24 @@ public class ServicioPolizaDefault extends ServicioBase implements ServicioPoliz
         boleta.setPagada("S");
         boleta.setFechaPago(new Date());
 
-        boleta = entityManager.merge(boleta);
+        entityManager.merge(boleta);
         entityManager.flush();
+
+        boleta = entityManager.find(Boleta.class, boleta.getId());
         contextoPoliza.setBoleta(boleta);
+
+        return ok(contextoPoliza);
+    }
+
+    private Resultado<String, ContextoPoliza> guardarBoletas(ContextoPoliza contextoPoliza) {
+        List<Boleta> boletas = contextoPoliza.getBoletas();
+
+        contextoPoliza.getBoletas().stream()
+                .forEach(boleta -> {
+                    entityManager.persist(boleta);
+                });
+
+        entityManager.flush();
 
         return ok(contextoPoliza);
     }

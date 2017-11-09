@@ -22,12 +22,12 @@ public class ServicioProveedores {
 
     @WebMethod
     public RespuestaListadoProveedores obtenerProveedores() {
-
         Resultado<String, List<Proveedor>> resultado = servicioProveedor.obtenerProveedores();
 
         if (resultado.tieneFalla()) {
             return RespuestaListadoProveedores.error(resultado.getError());
         }
+
         return RespuestaListadoProveedores.exito(resultado.getObjeto());
     }
 }
