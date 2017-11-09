@@ -1,10 +1,13 @@
 package edu.umg.dw.sw;
 
-import edu.umg.dw.dominio.Respuesta;
-import edu.umg.dw.dominio.Resultado;
+import edu.umg.dw.servicios.dominio.Resultado;
 import edu.umg.dw.model.Boleta;
 import edu.umg.dw.model.Poliza;
 import edu.umg.dw.servicios.ServicioPoliza;
+import edu.umg.dw.sw.vistas.RespuestaBoleta;
+import edu.umg.dw.sw.vistas.RespuestaListadoBoletas;
+import edu.umg.dw.sw.vistas.RespuestaListadoPolizas;
+import edu.umg.dw.sw.vistas.RespuestaPoliza;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -21,33 +24,75 @@ public class ServicioAfiliado {
     private ServicioPoliza servicioPoliza;
 
     @WebMethod
-    public Respuesta<List<Poliza>> obtenerPolizas() {
+    public RespuestaListadoPolizas obtenerPolizas() {
 
         Resultado<String, List<Poliza>> resultado = servicioPoliza.obtenerPolizas();
 
         if (resultado.tieneFalla()) {
-            return Respuesta.falla(resultado.getError());
+            return RespuestaListadoPolizas.error(resultado.getError());
         }
 
-        return Respuesta.exito(resultado.getObjeto());
+        return RespuestaListadoPolizas.exito(resultado.getObjeto());
     }
 
     @WebMethod
-    public Poliza obtenerPoliza(@WebParam int id) {
-        return servicioPoliza.obtenerPoliza(id);
+    public RespuestaPoliza obtenerPoliza(@WebParam String noPoliza) {
+
+        Resultado<String, Poliza> resultado = servicioPoliza.obtenerPoliza(noPoliza);
+
+        if (resultado.tieneFalla()) {
+            return RespuestaPoliza.error(resultado.getError());
+        }
+
+        return RespuestaPoliza.exito(resultado.getObjeto());
     }
 
     @WebMethod
-    public Poliza crearPoliza(@WebParam Poliza poliza) {
-        return servicioPoliza.crearPoliza(poliza);
+    public RespuestaPoliza crearPoliza(@WebParam Poliza poliza) {
+
+        Resultado<String, Poliza> resultado = servicioPoliza.crearPoliza(poliza);
+
+        if (resultado.tieneFalla()) {
+            return RespuestaPoliza.error(resultado.getError());
+        }
+
+        return RespuestaPoliza.exito(resultado.getObjeto());
     }
 
     @WebMethod
-    public Poliza actualizarPoliza(@WebParam Poliza poliza) {
-        return servicioPoliza.actualizarPoliza(poliza);
+    public RespuestaPoliza actualizarPoliza(@WebParam Poliza poliza) {
+
+        Resultado<String, Poliza> resultado = servicioPoliza.actualizarPoliza(poliza);
+
+        if (resultado.tieneFalla()) {
+            return RespuestaPoliza.error(resultado.getError());
+        }
+
+        return RespuestaPoliza.exito(resultado.getObjeto());
     }
 
-    public List<Boleta> obtenerBoletasPoliza(@WebParam int polizaId) {
-        return servicioPoliza.obtenerBoletasPoliza(polizaId);
+    @WebMethod
+    public RespuestaListadoBoletas obtenerBoletasPoliza(@WebParam String noPoliza) {
+
+        Resultado<String, List<Boleta>> resultado = servicioPoliza.obtenerBoletasPoliza(noPoliza);
+
+        if (resultado.tieneFalla()) {
+            return RespuestaListadoBoletas.error(resultado.getError());
+        }
+
+        return RespuestaListadoBoletas.exito(resultado.getObjeto());
     }
+
+    @WebMethod
+    public RespuestaBoleta pagarBoleta(@WebParam String noPoliza, @WebParam int mes, @WebParam int anio) {
+
+        Resultado<String, Boleta> resultado = servicioPoliza.pagarBoleta(noPoliza, mes, anio);
+
+        if (resultado.tieneFalla()) {
+            return RespuestaBoleta.error(resultado.getError());
+        }
+
+        return RespuestaBoleta.exito(resultado.getObjeto());
+    }
+
 }

@@ -1,4 +1,6 @@
-package edu.umg.dw.dominio;
+package edu.umg.dw.servicios.dominio;
+
+import java.util.function.Function;
 
 public class Resultado<L, R> {
     private L error;
@@ -23,6 +25,19 @@ public class Resultado<L, R> {
 
     public boolean exito() {
         return !tieneFalla();
+    }
+
+    public <K> Resultado<L, K> despues(Function<R, Resultado<L, K>> resultFunction) {
+
+        if (tieneFalla()) {
+            return conError(error);
+        }
+
+        return resultFunction.apply(objeto);
+    }
+
+    public <M> Resultado<L, M> map(Function<R, M> mapFunction) {
+        return despues(r -> ok(mapFunction.apply(r)));
     }
 
     public static <T1, T2> Resultado<T1, T2> conError(T1 error) {

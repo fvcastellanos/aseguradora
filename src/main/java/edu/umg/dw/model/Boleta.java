@@ -14,7 +14,7 @@ import java.util.Date;
 @Table(name="boleta")
 @NamedQueries({
         @NamedQuery(name="Boleta.findAll", query="SELECT b FROM Boleta b"),
-        @NamedQuery(name="Boleta.boletasPoliza", query = "select b from Boleta b where b.poliza.id = :polizaId")
+        @NamedQuery(name="Boleta.boletasPoliza", query = "select b from Boleta b where b.poliza.noPoliza = :noPoliza")
 
 })
 public class Boleta implements Serializable {
@@ -33,11 +33,13 @@ public class Boleta implements Serializable {
 
 	private int mes;
 
-	//bi-directional many-to-one association to Poliza
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Poliza poliza;
 
+	private String pagada;
+
 	public Boleta() {
+	    this.pagada = "N";
 	}
 
 	public int getId() {
@@ -88,4 +90,11 @@ public class Boleta implements Serializable {
 		this.poliza = poliza;
 	}
 
+    public String getPagada() {
+        return pagada;
+    }
+
+    public void setPagada(String pagada) {
+        this.pagada = pagada;
+    }
 }

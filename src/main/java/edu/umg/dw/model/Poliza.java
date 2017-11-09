@@ -51,11 +51,9 @@ public class Poliza implements Serializable {
 
     private String telefono;
 
-	//bi-directional many-to-one association to Boleta
-	@OneToMany(mappedBy="poliza")
-	private List<Boleta> boletas;
-
 	public Poliza() {
+		this.noPagos = 1;
+		this.activa = 1;
 	}
 
 	public int getId() {
@@ -114,14 +112,6 @@ public class Poliza implements Serializable {
 		this.noPoliza = noPoliza;
 	}
 
-	public List<Boleta> getBoletas() {
-		return this.boletas;
-	}
-
-	public void setBoletas(List<Boleta> boletas) {
-		this.boletas = boletas;
-	}
-
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -154,19 +144,4 @@ public class Poliza implements Serializable {
 		this.apellidos = apellidos;
 	}
 
-    /*
-    public Boleta addBoleta(Boleta boleta) {
-		getBoletas().add(boleta);
-		boleta.setPoliza(this);
-
-		return boleta;
-	}
-
-	public Boleta removeBoleta(Boleta boleta) {
-		getBoletas().remove(boleta);
-		boleta.setPoliza(null);
-
-		return boleta;
-	}
-*/
 }
