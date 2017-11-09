@@ -1,7 +1,9 @@
 package edu.umg.dw.servicios;
 
+import edu.umg.dw.model.ConsultaCobertura;
 import edu.umg.dw.model.Proveedor;
 import edu.umg.dw.servicios.dominio.Resultado;
+import edu.umg.dw.sw.vistas.PeticionConsultaPaciente;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -15,5 +17,6 @@ public interface ServicioProveedor {
     Resultado<String, Proveedor> agregarProveedor(Proveedor proveedor);
     Resultado<String, Proveedor> modificarProveedor(Proveedor proveedor);
 
+    Resultado<String, ConsultaCobertura> obtenerConsultaCobertura(PeticionConsultaPaciente peticionConsultaPaciente);
 
 }

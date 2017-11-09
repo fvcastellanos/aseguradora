@@ -8,14 +8,15 @@ import java.util.List;
 
 /**
  * The persistent class for the poliza database table.
- * 
+ *
  */
 @Entity
 @Table(name="poliza")
 @NamedQueries({
-		@NamedQuery(name="Poliza.findAll", query="SELECT p FROM Poliza p"),
-		@NamedQuery(name="Poliza.obtenerPorId", query="SELECT p FROM Poliza p where p.id = :id"),
-        @NamedQuery(name="Poliza.obtenerNumeroPoliza", query="SELECT p FROM Poliza p where p.noPoliza = :poliza"),
+        @NamedQuery(name = "Poliza.findAll", query = "SELECT p FROM Poliza p"),
+        @NamedQuery(name = "Poliza.obtenerPorId", query = "SELECT p FROM Poliza p where p.id = :id"),
+        @NamedQuery(name = "Poliza.obtenerNumeroPoliza", query = "SELECT p FROM Poliza p where p.noPoliza = :poliza"),
+        @NamedQuery(name = "Poliza.obtenerNumeroPolizaWS", query = "SELECT p FROM Poliza p WHERE p.noPoliza = :noPoliza AND p.fechaNacimiento = :fechaNacimiento"),
 })
 public class Poliza implements Serializable {
 	private static final long serialVersionUID = 1L;
