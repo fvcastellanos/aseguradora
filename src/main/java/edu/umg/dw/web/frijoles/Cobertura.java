@@ -1,17 +1,23 @@
 package edu.umg.dw.web.frijoles;
 
-import edu.umg.dw.servicios.ServicioProveedor;
+import edu.umg.dw.web.cliente.ClienteServicioProveedores;
+import edu.umg.dw.web.cliente.dominio.RespuestaConsultaCobertura;
+import org.apache.commons.lang3.time.DateUtils;
 
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @ManagedBean
 public class Cobertura {
 
-    @EJB
-    private ServicioProveedor servicioProveedor;
+    private Logger logger = Logger.getLogger(Cobertura.class.getName());
+
+    @Inject
+    private ClienteServicioProveedores clienteServicioProveedores;
 
     @NotNull(message = "El Nit es requerido")
     private String nit;
@@ -20,8 +26,11 @@ public class Cobertura {
     private String noPoliza;
 
     @NotNull(message = "Fecha de nacimiento es requerida")
-    @Pattern(regexp = "##/##/####", message = "Formato de fecha invalida")
     private String fechaNacimiento;
+
+    private String autorizacion;
+
+    private String fechaConsulta;
 
     public String getNit() {
         return nit;
@@ -47,10 +56,42 @@ public class Cobertura {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getAutorizacion() {
+        return autorizacion;
+    }
+
+    public void setAutorizacion(String autorizacion) {
+        this.autorizacion = autorizacion;
+    }
+
+    public String getFechaConsulta() {
+        return fechaConsulta;
+    }
+
+    public void setFechaConsulta(String fechaConsulta) {
+        this.fechaConsulta = fechaConsulta;
+    }
+
+    //---------------------------------------
+
     public String verificarCobertura() {
+        try {
+            Date fecha = DateUtils.parseDate(fechaNacimiento, "dd/MM/yyyy");
+            RespuestaConsultaCobertura respuesta = clienteServicioProveedores.consultaCobertura(nit, noPoliza, fecha);
 
-        String k = "";
+            if ("ERROR".equals(respuesta.getEstado())) {
+                autorizacion = respuesta.getMensaje();
 
-        return k;
+                return "";
+            }
+
+            fechaConsulta = respuesta.getConsultaCobertura().getFechaConsulta().toString();
+            autorizacion = respuesta.getConsultaCobertura().getAutorizacion();
+
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "No se puede verificar la cobertura: ", ex);
+        }
+
+        return "";
     }
 }

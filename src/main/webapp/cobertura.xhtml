@@ -46,15 +46,16 @@
     <div class="row" id="header">
         <div class="col-md-12">
             <div class="text-center">
-                <img src="#" class="rounded img-fluid" alt="Responsive image" />
+                <img src="assets/imagenes/web-header-1140x333-2.jpg" class="rounded img-fluid" alt="Responsive image" />
             </div>
         </div>
 
     </div>
-    <div id="content" style="margin-top: 4em">
+    <div id="content">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                    <h2>Consulta de Cobertura</h2>
                     <h:form>
                         <div class="form-group">
                             <h:outputLabel for="nit" value="Nit:" />
@@ -75,8 +76,21 @@
                         </div>
 
                         <h:commandButton styleClass="btn btn-primary" value="Verificar cobertura" action="#{cobertura.verificarCobertura}"/>
-
                     </h:form>
+
+
+                    <table class="table" style="margin-top: 1.5em">
+                        <tr>
+                            <td>Fecha Consulta</td>
+                            <td><h:outputLabel value="#{cobertura.fechaConsulta}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Autorizacion</td>
+                            <td><h:outputLabel value="#{cobertura.autorizacion}" /></td>
+                        </tr>
+                    </table>
+
+
                 </div>
             </div>
         </div>
