@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" lang="eng">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="assets/css/custom.css"/>
+
+    <title>Consulta de Solicitudes de Cobertura</title>
+</head>
+
+<body>
+
+<div id="content">
+    <div class="container">
+
+        <ui:include src="header.xhtml"/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Consulta de Cobertura</h2>
+                <h:form>
+                    <div class="form-group">
+                        <h:outputLabel for="nit" value="Nit:"/>
+                        <h:inputText id="nit" name="nit" styleClass="form-control" value="#{consultaSolicitudesCoberturaManageBean.nit}"/>
+                        <h:message for="nit" styleClass="alert-danger"/>
+                    </div>
+
+                    <h:commandButton styleClass="btn btn-primary" value="Verificar cobertura" action="#{consultaSolicitudesCoberturaManageBean.consultar}"/>
+                </h:form>
+                <h:dataTable value="#{consultaSolicitudesCoberturaManageBean.consultaCoberturas}" var="consultaCobertura" class="table table-hover table-responsive-sm">
+                    <h:column>
+                        <f:facet name="header">Poliza</f:facet>
+                        #{consultaCobertura.poliza.noPoliza}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Poliza</f:facet>
+                        #{consultaCobertura.poliza.nombres}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Autorizacion</f:facet>
+                        #{consultaCobertura.autorizacion}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Fecha Consulta</f:facet>
+                        <h:outputText value="#{consultaCobertura.fechaConsulta}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

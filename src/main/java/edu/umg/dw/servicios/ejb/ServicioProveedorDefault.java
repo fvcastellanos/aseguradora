@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static edu.umg.dw.servicios.dominio.Resultado.conError;
 import static edu.umg.dw.servicios.dominio.Resultado.ok;
@@ -121,10 +122,24 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
         }
     }
 
+    @Override
+    public Resultado<String, List<ConsultaCobertura>> obtenerConsultasCobertura(final String nitProveedor) {
+        try {
+            final List<ConsultaCobertura> consultaCoberturas = entityManager.createNamedQuery("ConsultaCobertura.findAll", ConsultaCobertura.class).getResultList()
+                         .stream()
+                         .filter(consultaCobertura -> consultaCobertura.getNitProveedor().equalsIgnoreCase(nitProveedor))
+                         .collect(Collectors.toList());
+            return ok(consultaCoberturas);
+        } catch (final Exception exception) {
+            logger.log(SEVERE, "No se puede obtener el listado de consultas de cobertura.", exception);
+            return conError("No se puede obtener el listado de consultas de cobertura.");
+        }
+    }
+
     // -----------------------------
 
     private Resultado<String, ConsultaCobertura> crearConsultaCobertura(final String mensaje, final String nitProveedor, final String numeroPoliza) {
-        final ConsultaCobertura consultaCobertura = new ConsultaCobertura(mensaje, new Date(), nitProveedor, numeroPoliza);
+        final ConsultaCobertura consultaCobertura = new ConsultaCobertura(mensaje, new Date(), nitProveedor, new Poliza(numeroPoliza));
         entityManager.persist(consultaCobertura);
         entityManager.flush();
         return ok(consultaCobertura);
