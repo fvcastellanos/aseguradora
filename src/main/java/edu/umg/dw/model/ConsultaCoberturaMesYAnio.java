@@ -33,18 +33,18 @@ import java.io.Serializable;
         @NamedNativeQuery(
                 name = "ConsultaCoberturaMesYAnio.totalConsultaCoberturaMesYAnio",
                 query = "SELECT b.anio, " +
-                        "  SUM(CASE WHEN mes = 1 THEN p.monto ELSE 0.0 END) AS enero, " +
-                        "  SUM(CASE WHEN mes = 2 THEN p.monto ELSE 0.0 END) AS febrero, " +
-                        "  SUM(CASE WHEN mes = 3 THEN p.monto ELSE 0.0 END) AS marzo, " +
-                        "  SUM(CASE WHEN mes = 4 THEN p.monto ELSE 0.0 END) AS abril, " +
-                        "  SUM(CASE WHEN mes = 5 THEN p.monto ELSE 0.0 END) AS mayo, " +
-                        "  SUM(CASE WHEN mes = 6 THEN p.monto ELSE 0.0 END) AS junio, " +
-                        "  SUM(CASE WHEN mes = 7 THEN p.monto ELSE 0.0 END) AS julio, " +
-                        "  SUM(CASE WHEN mes = 8 THEN p.monto ELSE 0.0 END) AS agosto, " +
-                        "  SUM(CASE WHEN mes = 9 THEN p.monto ELSE 0.0 END) AS septiembre, " +
-                        "  SUM(CASE WHEN mes = 10 THEN p.monto ELSE 0.0 END) AS octubre, " +
-                        "  SUM(CASE WHEN mes = 11 THEN p.monto ELSE 0.0 END) AS noviembre, " +
-                        "   SUM(CASE WHEN mes = 12 THEN p.monto ELSE 0.0 END) AS diciembre " +
+                        "  SUM(CASE WHEN mes = 1 THEN p.monto / p.no_pagos ELSE 0.0 END) AS enero, " +
+                        "  SUM(CASE WHEN mes = 2 THEN p.monto / p.no_pagos ELSE 0.0 END) AS febrero, " +
+                        "  SUM(CASE WHEN mes = 3 THEN p.monto / p.no_pagos ELSE 0.0 END) AS marzo, " +
+                        "  SUM(CASE WHEN mes = 4 THEN p.monto / p.no_pagos ELSE 0.0 END) AS abril, " +
+                        "  SUM(CASE WHEN mes = 5 THEN p.monto / p.no_pagos ELSE 0.0 END) AS mayo, " +
+                        "  SUM(CASE WHEN mes = 6 THEN p.monto / p.no_pagos ELSE 0.0 END) AS junio, " +
+                        "  SUM(CASE WHEN mes = 7 THEN p.monto / p.no_pagos ELSE 0.0 END) AS julio, " +
+                        "  SUM(CASE WHEN mes = 8 THEN p.monto / p.no_pagos ELSE 0.0 END) AS agosto, " +
+                        "  SUM(CASE WHEN mes = 9 THEN p.monto / p.no_pagos ELSE 0.0 END) AS septiembre, " +
+                        "  SUM(CASE WHEN mes = 10 THEN p.monto / p.no_pagos ELSE 0.0 END) AS octubre, " +
+                        "  SUM(CASE WHEN mes = 11 THEN p.monto / p.no_pagos ELSE 0.0 END) AS noviembre, " +
+                        "   SUM(CASE WHEN mes = 12 THEN p.monto / p.no_pagos ELSE 0.0 END) AS diciembre " +
                         "FROM boleta b " +
                         "JOIN poliza p ON b.poliza_id = p.id " +
                         "GROUP BY b.anio " +
