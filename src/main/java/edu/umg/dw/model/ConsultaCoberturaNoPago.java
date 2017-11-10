@@ -15,12 +15,12 @@ import java.util.Date;
                         "FROM boleta b " +
                         "JOIN poliza p ON b.poliza_id = p.id " +
                         "WHERE b.pagada = 'Y' " +
-                        "AND p.id = (SELECT p.id " +
-                        "FROM boleta b " +
-                        "JOIN poliza p ON b.poliza_id = p.id " +
-                        "WHERE b.pagada = 'N' " +
-                        "GROUP BY p.no_poliza " +
-                        "HAVING count(b.pagada) > 2) " +
+                        "AND p.id IN (SELECT p.id " +
+                        "           FROM boleta b " +
+                        "           JOIN poliza p ON b.poliza_id = p.id " +
+                        "           WHERE b.pagada = 'N' " +
+                        "           GROUP BY p.no_poliza " +
+                        "           HAVING count(b.pagada) > 2) " +
                         "ORDER BY b.fecha_pago DESC " +
                         "LIMIT 1",
                 resultClass = ConsultaCoberturaNoPago.class
