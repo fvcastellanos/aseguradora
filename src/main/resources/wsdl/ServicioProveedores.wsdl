@@ -142,7 +142,7 @@
   </wsdl:binding>
   <wsdl:service name="ServicioProveedoresService">
     <wsdl:port binding="tns:ServicioProveedoresServiceSoapBinding" name="ServicioProveedoresPort">
-      <soap:address location="http://localhost:8080/webservices/ServicioProveedores"/>
+      <soap:address location="http://localhost:8080/aseguradora/webservices/ServicioProveedores"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

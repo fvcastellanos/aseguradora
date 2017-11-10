@@ -1,14 +1,13 @@
 
 package edu.umg.dw.web.cliente.dominio;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
+import java.net.URL;
 
 
 /**
@@ -30,8 +29,13 @@ public class ServicioProveedoresService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/Users/fcastellanos/Projects/aseguradora/src/main/java/edu/umg/dw/web/cliente/ServicioProveedores.wsdl");
-        } catch (MalformedURLException ex) {
+            ClassLoader classLoader = ServicioProveedoresService.class.getClassLoader();
+
+            url = classLoader.getResource("wsdl/ServicioProveedores.wsdl");
+
+//            url = new URL("file:ServicioProveedores.wsdl");
+//            url = new URL("file:/Users/fcastellanos/Projects/aseguradora/src/main/java/edu/umg/dw/web/cliente/ServicioProveedores.wsdl");
+        } catch (Exception ex) {
             e = new WebServiceException(ex);
         }
         SERVICIOPROVEEDORESSERVICE_WSDL_LOCATION = url;

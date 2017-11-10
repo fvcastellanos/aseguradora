@@ -13,7 +13,7 @@
 
         <!--Flyway-->
         <flyway.version>4.2.0</flyway.version>
-        <flyway.url>jdbc:mysql://localhost:3306</flyway.url>
+        <flyway.url>jdbc:mysql://mysql.local:3306</flyway.url>
         <flyway.db.user>root</flyway.db.user>
         <flyway.db.password>r00t</flyway.db.password>
         <flyway.db>aseguradora</flyway.db>
@@ -48,14 +48,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.axis/axis -->
-        <dependency>
-            <groupId>org.apache.axis</groupId>
-            <artifactId>axis</artifactId>
-            <version>1.4</version>
-        </dependency>
-
     </dependencies>
 
     <build>
