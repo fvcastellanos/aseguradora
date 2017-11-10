@@ -2,6 +2,7 @@ package edu.umg.dw.servicios.ejb;
 
 
 import edu.umg.dw.model.ConsultaCobertura;
+7import edu.umg.dw.model.ConsultaCoberturaNoPago;
 import edu.umg.dw.model.Poliza;
 import edu.umg.dw.model.Proveedor;
 import edu.umg.dw.servicios.ServicioProveedor;
@@ -130,6 +131,32 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
                          .filter(consultaCobertura -> consultaCobertura.getNitProveedor().equalsIgnoreCase(nitProveedor))
                          .collect(Collectors.toList());
             return ok(consultaCoberturas);
+        } catch (final Exception exception) {
+            logger.log(SEVERE, "No se puede obtener el listado de consultas de cobertura.", exception);
+            return conError("No se puede obtener el listado de consultas de cobertura.");
+        }
+    }
+
+
+    @Override
+    public Resultado<String, List<ConsultaCoberturaNoPago>> obtenerConsultasCoberturaNoPago() {
+        try {
+//            final List<ConsultaCoberturaNoPago> consultaCoberturaNoPagos = entityManager.createNativeQuery("SELECT p.no_poliza AS poliza, p.nombres, CONCAT(MONTHNAME(CONCAT(b.anio,'-',b.mes,'-01')), ' ', b.anio) AS ultimaFechaPagada, b.fecha_pago AS fechaDePago " +
+//                                                                                                             "FROM boleta b " +
+//                                                                                                             "JOIN poliza p ON b.poliza_id = p.id " +
+//                                                                                                             "WHERE b.pagada = 'Y' " +
+//                                                                                                             "AND p.id = (SELECT p.id " +
+//                                                                                                             "FROM boleta b " +
+//                                                                                                             "JOIN poliza p ON b.poliza_id = p.id " +
+//                                                                                                             "WHERE b.pagada = 'N' " +
+//                                                                                                             "GROUP BY p.no_poliza " +
+//                                                                                                             "HAVING count(b.pagada) > 2) " +
+//                                                                                                             "ORDER BY b.fecha_pago DESC " +
+//                                                                                                             "LIMIT 1", "ConsultaCoberturaNoPagoMapping").getResultList();
+
+            final List<ConsultaCoberturaNoPago> consultaCoberturaNoPagos = entityManager.createNamedQuery("get", ConsultaCoberturaNoPago.class).getResultList();
+
+            return ok(consultaCoberturaNoPagos);
         } catch (final Exception exception) {
             logger.log(SEVERE, "No se puede obtener el listado de consultas de cobertura.", exception);
             return conError("No se puede obtener el listado de consultas de cobertura.");

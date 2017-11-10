@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" lang="eng">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="assets/css/custom.css"/>
+
+    <title>Consulta de Solicitudes de Cobertura</title>
+</head>
+
+<body>
+
+<div id="content">
+    <div class="container">
+
+        <ui:include src="header.xhtml"/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Consulta de Cobertura No Pagadas</h2>
+                <h:form>
+                    <h:commandButton styleClass="btn btn-primary" value="Verificar cobertura" action="#{consultaSolicitudesCoberturaNoPagoManageBean.consultar}"/>
+                </h:form>
+                <h:dataTable value="#{consultaSolicitudesCoberturaNoPagoManageBean.consultaCoberturaNoPagos}" var="consultaCoberturaNoPagos" class="table table-hover table-responsive-sm">
+                    <h:column>
+                        <f:facet name="header">Poliza</f:facet>
+                        #{consultaCoberturaNoPagos.poliza}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nombres</f:facet>
+                        #{consultaCoberturaNoPagos.nombres}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Ultima Fecha Pagada</f:facet>
+                        #{consultaCoberturaNoPagos.ultimaFechaPagada}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Fecha de Pago</f:facet>
+                        <h:outputText value="#{consultaCoberturaNoPagos.fechaDePago}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
