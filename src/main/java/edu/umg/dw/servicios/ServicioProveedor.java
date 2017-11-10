@@ -26,5 +26,6 @@ public interface ServicioProveedor {
     Resultado<String, List<ConsultaCobertura>> obtenerConsultasCobertura(String nitProveedor);
     Resultado<String, List<ConsultaCoberturaNoPago>> obtenerConsultasCoberturaNoPago();
     Resultado<String, List<ConsultaCoberturaMesYAnio>> obtenerConsultaCoberturaMesYAnio(String noPoliza);
+    Resultado<String, List<ConsultaCoberturaMesYAnio>> obtenerConsultaTotalCoberturaMesYAnio();
 
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" lang="eng">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="assets/css/custom.css"/>
+
+    <title>Consulta de Solicitudes de Cobertura</title>
+</head>
+
+<body>
+
+<div id="content">
+    <div class="container">
+
+        <ui:include src="header.xhtml"/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Consulta de Cobertura Por Mes y Año</h2>
+                <h:form>
+                    <h:commandButton styleClass="btn btn-primary" value="Verificar cobertura" action="#{consultaSolicitudesTotalCoberturaPorMesYAnioManageBean.consultar}"/>
+                </h:form>
+                <h:dataTable value="#{consultaSolicitudesTotalCoberturaPorMesYAnioManageBean.consultaCoberturaMesYAnios}" var="consultaCobertura" class="table table-hover table-responsive-sm">
+                    <h:column>
+                        <f:facet name="header">Año</f:facet>
+                        #{consultaCobertura.anio}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Enero (Q)</f:facet>
+                        #{consultaCobertura.enero}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Febero (Q)</f:facet>
+                        #{consultaCobertura.febrero}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Marzo (Q)</f:facet>
+                        #{consultaCobertura.marzo}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Abril (Q)</f:facet>
+                        #{consultaCobertura.abril}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Mayo (Q)</f:facet>
+                        #{consultaCobertura.mayo}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Junio (Q)</f:facet>
+                        #{consultaCobertura.junio}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Julio (Q)</f:facet>
+                        #{consultaCobertura.julio}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Agosto (Q)</f:facet>
+                        #{consultaCobertura.agosto}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Septiembre (Q)</f:facet>
+                        #{consultaCobertura.septiembre}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Octubre (Q)</f:facet>
+                        #{consultaCobertura.octubre}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Noviembre (Q)</f:facet>
+                        #{consultaCobertura.noviembre}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Diciembre (Q)</f:facet>
+                        #{consultaCobertura.diciembre}
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -162,6 +162,17 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
         }
     }
 
+    @Override
+    public Resultado<String, List<ConsultaCoberturaMesYAnio>> obtenerConsultaTotalCoberturaMesYAnio() {
+        try {
+            final List<ConsultaCoberturaMesYAnio> consultaCoberturaMesYAnios = entityManager.createNamedQuery("ConsultaCoberturaMesYAnio.totalConsultaCoberturaMesYAnio", ConsultaCoberturaMesYAnio.class).getResultList();
+            return ok(consultaCoberturaMesYAnios);
+        } catch (final Exception exception) {
+            logger.log(SEVERE, "No se puede obtener el listado de consultas de cobertura.", exception);
+            return conError("No se puede obtener el listado de consultas de cobertura.");
+        }
+    }
+
     // -----------------------------
 
     private Resultado<String, ConsultaCobertura> crearConsultaCobertura(final String mensaje, final String nitProveedor, final String numeroPoliza) {
