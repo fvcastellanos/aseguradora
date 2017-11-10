@@ -1,6 +1,7 @@
 package edu.umg.dw.servicios;
 
 import edu.umg.dw.model.ConsultaCobertura;
+import edu.umg.dw.model.ConsultaCoberturaMesYAnio;
 import edu.umg.dw.model.ConsultaCoberturaNoPago;
 import edu.umg.dw.model.Proveedor;
 import edu.umg.dw.servicios.dominio.Resultado;
@@ -24,5 +25,6 @@ public interface ServicioProveedor {
 
     Resultado<String, List<ConsultaCobertura>> obtenerConsultasCobertura(String nitProveedor);
     Resultado<String, List<ConsultaCoberturaNoPago>> obtenerConsultasCoberturaNoPago();
+    Resultado<String, List<ConsultaCoberturaMesYAnio>> obtenerConsultaCoberturaMesYAnio(String noPoliza);
 
 }

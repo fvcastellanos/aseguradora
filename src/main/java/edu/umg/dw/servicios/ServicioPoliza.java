@@ -9,6 +9,7 @@ import java.util.List;
 
 @Local
 public interface ServicioPoliza {
+
     Resultado<String, List<Poliza>> obtenerPolizas();
     Resultado<String, Poliza> obtenerPoliza(String noPoliza);
 
@@ -17,4 +18,5 @@ public interface ServicioPoliza {
 
     Resultado<String, List<Boleta>> obtenerBoletasPoliza(String noPoliza);
     Resultado<String, Boleta> pagarBoleta(String noPoliza, int mes, int anio);
+
 }

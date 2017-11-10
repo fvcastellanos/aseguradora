@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 @NamedNativeQueries({
         @NamedNativeQuery(
-                name = "get",
+                name = "ConsultaCoberturaNoPago.findConsultaCoberturaNoPago",
                 query = "SELECT p.id, p.no_poliza AS poliza, p.nombres, CONCAT(MONTHNAME(CONCAT(b.anio,'-',b.mes,'-01')), ' ', b.anio) AS ultimaFechaPagada, b.fecha_pago AS fechaDePago " +
                         "FROM boleta b " +
                         "JOIN poliza p ON b.poliza_id = p.id " +
