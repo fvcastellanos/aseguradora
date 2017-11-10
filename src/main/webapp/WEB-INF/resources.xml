@@ -10,8 +10,8 @@
         removeAbandonedTimeout = 120
 
         driverClassName = com.mysql.jdbc.Driver
-        url = jdbc:mysql://mysql.local:13306/aseguradora
-        username = root
-        password = Sh@ngril@
+        url = jdbc:mysql://mysql.local:3306/aseguradora
+        username = aseguradora
+        password = aseguradora
     </Resource>
 </resources>
