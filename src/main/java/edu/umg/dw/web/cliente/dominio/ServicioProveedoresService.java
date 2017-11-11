@@ -1,13 +1,14 @@
 
 package edu.umg.dw.web.cliente.dominio;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
-import java.net.URL;
 
 
 /**
@@ -16,7 +17,7 @@ import java.net.URL;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "ServicioProveedoresService", targetNamespace = "http://sw.dw.umg.edu/", wsdlLocation = "file:/Users/fcastellanos/Projects/aseguradora/src/main/java/edu/umg/dw/web/cliente/ServicioProveedores.wsdl")
+@WebServiceClient(name = "ServicioProveedoresService", targetNamespace = "http://sw.dw.umg.edu/", wsdlLocation = "file:/D:/projects/aseguradora/src/main/resources/wsdl/ServicioProveedores.wsdl")
 public class ServicioProveedoresService
     extends Service
 {
@@ -30,11 +31,7 @@ public class ServicioProveedoresService
         WebServiceException e = null;
         try {
             ClassLoader classLoader = ServicioProveedoresService.class.getClassLoader();
-
             url = classLoader.getResource("wsdl/ServicioProveedores.wsdl");
-
-//            url = new URL("file:ServicioProveedores.wsdl");
-//            url = new URL("file:/Users/fcastellanos/Projects/aseguradora/src/main/java/edu/umg/dw/web/cliente/ServicioProveedores.wsdl");
         } catch (Exception ex) {
             e = new WebServiceException(ex);
         }
@@ -79,7 +76,7 @@ public class ServicioProveedoresService
     /**
      * 
      * @param features
-     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+     *     A list of {@link WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
      *     returns ServicioProveedores
      */

@@ -22,7 +22,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="fechaConsulta" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="nitProveedor" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="poliza" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="poliza" type="{http://sw.dw.umg.edu/}poliza" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -46,7 +46,7 @@ public class ConsultaCobertura {
     protected XMLGregorianCalendar fechaConsulta;
     protected int id;
     protected String nitProveedor;
-    protected String poliza;
+    protected Poliza poliza;
 
     /**
      * Gets the value of the autorizacion property.
@@ -141,10 +141,10 @@ public class ConsultaCobertura {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Poliza }
      *     
      */
-    public String getPoliza() {
+    public Poliza getPoliza() {
         return poliza;
     }
 
@@ -153,10 +153,10 @@ public class ConsultaCobertura {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Poliza }
      *     
      */
-    public void setPoliza(String value) {
+    public void setPoliza(Poliza value) {
         this.poliza = value;
     }
 

@@ -59,8 +59,8 @@ public class Poliza implements Serializable {
 
     private String telefono;
 
-    @OneToMany(mappedBy = "poliza")
-    private List<ConsultaCobertura> consultaCoberturas;
+//    @OneToMany(mappedBy = "poliza")
+//    private List<ConsultaCobertura> consultaCoberturas;
 
     public Poliza() {
         this.noPagos = 1;
@@ -159,11 +159,11 @@ public class Poliza implements Serializable {
         this.apellidos = apellidos;
     }
 
-    public List<ConsultaCobertura> getConsultaCoberturas() {
-        return consultaCoberturas;
-    }
-
-    public void setConsultaCoberturas(final List<ConsultaCobertura> consultaCoberturas) {
-        this.consultaCoberturas = consultaCoberturas;
-    }
+//    public List<ConsultaCobertura> getConsultaCoberturas() {
+//        return consultaCoberturas;
+//    }
+//
+//    public void setConsultaCoberturas(final List<ConsultaCobertura> consultaCoberturas) {
+//        this.consultaCoberturas = consultaCoberturas;
+//    }
 }

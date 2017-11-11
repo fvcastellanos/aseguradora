@@ -55,7 +55,23 @@
           <xs:element minOccurs="0" name="fechaConsulta" type="xs:dateTime"/>
           <xs:element name="id" type="xs:int"/>
           <xs:element minOccurs="0" name="nitProveedor" type="xs:string"/>
-          <xs:element minOccurs="0" name="poliza" type="xs:string"/>
+          <xs:element minOccurs="0" name="poliza" type="tns:poliza"/>
+        </xs:sequence>
+      </xs:complexType>
+
+      <xs:complexType name="poliza">
+        <xs:sequence>
+          <xs:element name="activa" type="xs:int"/>
+          <xs:element minOccurs="0" name="apellidos" type="xs:string"/>
+          <xs:element minOccurs="0" name="fechaEmision" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fechaNacimiento" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fechaVencimiento" type="xs:dateTime"/>
+          <xs:element name="id" type="xs:int"/>
+          <xs:element name="monto" type="xs:double"/>
+          <xs:element name="noPagos" type="xs:int"/>
+          <xs:element minOccurs="0" name="noPoliza" type="xs:string"/>
+          <xs:element minOccurs="0" name="nombres" type="xs:string"/>
+          <xs:element minOccurs="0" name="telefono" type="xs:string"/>
         </xs:sequence>
       </xs:complexType>
 

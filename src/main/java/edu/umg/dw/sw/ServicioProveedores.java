@@ -14,6 +14,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static edu.umg.dw.sw.vistas.RespuestaConsultaCobertura.error;
 import static edu.umg.dw.sw.vistas.RespuestaConsultaCobertura.exito;
@@ -21,6 +22,8 @@ import static edu.umg.dw.sw.vistas.RespuestaConsultaCobertura.exito;
 @Stateless
 @WebService
 public class ServicioProveedores {
+
+    private Logger logger = Logger.getLogger(ServicioProveedores.class.getName());
 
     @EJB
     private ServicioProveedor servicioProveedor;
@@ -30,12 +33,16 @@ public class ServicioProveedores {
 
     @WebMethod
     public RespuestaListadoProveedores obtenerProveedores() {
+
+        logger.info("Obteniendo listado de proveedores");
         Resultado<String, List<Proveedor>> resultado = servicioProveedor.obtenerProveedores();
 
         if (resultado.tieneFalla()) {
+            logger.info("no se pudo obtener el listado de proveedores");
             return RespuestaListadoProveedores.error(resultado.getError());
         }
 
+        logger.info("listado de proveedores exitoso");
         return RespuestaListadoProveedores.exito(resultado.getObjeto());
     }
 

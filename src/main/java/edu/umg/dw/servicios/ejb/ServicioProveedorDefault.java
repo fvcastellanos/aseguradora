@@ -53,7 +53,7 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
 
             Optional<Proveedor> contenedor = buscarProveedor(nit);
 
-            if (contenedor.isPresent()) {
+            if (!contenedor.isPresent()) {
                 return conError("No se encuentra el proveedor");
             }
 
@@ -105,25 +105,29 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
     @Override
     public Resultado<String, ConsultaCobertura> obtenerConsultaCobertura(final PeticionConsultaPaciente peticionConsultaPaciente) {
         try {
-            final Poliza poliza = entityManager.createNamedQuery("Poliza.obtenerNumeroPolizaWS", Poliza.class)
-                    .setParameter("noPoliza", peticionConsultaPaciente.getNoPoliza())
-                    .setParameter("fechaNacimiento", peticionConsultaPaciente.getFechaNacimientoPaciente())
-                    .getResultList()
-                    .stream()
-                    .findFirst()
-                    .orElse(null);
+            ContextoProveedor contextoProveedor = new ContextoProveedor(peticionConsultaPaciente.getNitProveedor());
+            contextoProveedor.setNoPoliza(peticionConsultaPaciente.getNoPoliza());
+            contextoProveedor.setFechaNacimiento(peticionConsultaPaciente.getFechaNacimientoPaciente());
 
-            if (poliza != null) {
-                return crearConsultaCobertura(UUID.randomUUID().toString(), peticionConsultaPaciente.getNitProveedor(), poliza.getNoPoliza());
+            Resultado<String, String> resultado = cargarProveedor(contextoProveedor)
+                    .despues(this::obtenerPoliza)
+                    .despues(this::verificarFechaNacimiento)
+                    .despues(this::generarAutorizacion)
+                    .map(ContextoProveedor::getAutorizacion);
+
+            if (resultado.tieneFalla()) {
+                return conError(resultado.getError());
             }
 
-            return crearConsultaCobertura(SIN_COBERTURA, peticionConsultaPaciente.getNitProveedor(), peticionConsultaPaciente.getNoPoliza());
-        } catch (final Exception exception) {
+            return crearConsultaCobertura(resultado.getObjeto(), contextoProveedor.getNit(), contextoProveedor.getPoliza());
+
+        } catch (Exception exception) {
             logger.log(SEVERE, "No se puede realizar la consulta desde el Servicio Web para obtener la poliza del asegurado.", exception);
             return conError("No se puede realizar la consulta desde el Servicio Web para obtener la poliza del asegurado.");
         }
     }
 
+    // -------------------------------------------------
     @Override
     public Resultado<String, List<ConsultaCobertura>> obtenerConsultasCobertura(final String nitProveedor) {
         try {
@@ -173,15 +177,15 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
         }
     }
 
-    // -----------------------------
-
-    private Resultado<String, ConsultaCobertura> crearConsultaCobertura(final String mensaje, final String nitProveedor, final String numeroPoliza) {
-        final ConsultaCobertura consultaCobertura = new ConsultaCobertura(mensaje, new Date(), nitProveedor, new Poliza(numeroPoliza));
+    private Resultado<String, ConsultaCobertura> crearConsultaCobertura(final String mensaje, final String nitProveedor, final Poliza poliza) {
+        final ConsultaCobertura consultaCobertura = new ConsultaCobertura(mensaje, new Date(), nitProveedor, poliza);
         entityManager.persist(consultaCobertura);
         entityManager.flush();
+
         return ok(consultaCobertura);
     }
 
+    // -----------------------------
 
     private List<Proveedor> obtenerListadoProveedores() {
         return entityManager.createNamedQuery("Proveedor.findAll", Proveedor.class)
@@ -191,6 +195,14 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
     private Optional<Proveedor> buscarProveedor(String nit) {
         return obtenerListadoProveedores().stream()
                 .filter(proveedor -> nit.equals(proveedor.getNit()))
+                .findFirst();
+    }
+
+    private Optional<Poliza> buscarPoliza(String noPoliza) {
+        return entityManager.createNamedQuery("Poliza.obtenerNumeroPoliza", Poliza.class)
+                .setParameter("poliza", noPoliza)
+                .getResultList()
+                .stream()
                 .findFirst();
     }
 
@@ -244,15 +256,39 @@ public class ServicioProveedorDefault extends ServicioBase implements ServicioPr
         return ok(contextoProveedor);
     }
 
-    private Resultado<String, ContextoProveedor> verificarProveedorExistente(ContextoProveedor contextoProveedor) {
-        String nit = contextoProveedor.getNit();
+    private Resultado<String, ContextoProveedor> obtenerPoliza(ContextoProveedor contextoProveedor) {
+        String noPoliza = contextoProveedor.getNoPoliza();
 
-        Optional<Proveedor> contenedor = buscarProveedor(nit);
-        if (contenedor.isPresent()) {
-            return conError("Proveedor existente");
+        Optional<Poliza> contenedor = buscarPoliza(noPoliza);
+
+        if (!contenedor.isPresent()) {
+            return conError("Poliza no existe");
+        }
+
+        contextoProveedor.setPoliza(contenedor.get());
+
+        return ok(contextoProveedor);
+    }
+
+    private Resultado<String, ContextoProveedor> verificarFechaNacimiento(ContextoProveedor contextoProveedor) {
+        Poliza poliza = contextoProveedor.getPoliza();
+
+        if (!poliza.getFechaNacimiento().equals(contextoProveedor.getFechaNacimiento())) {
+            return conError("Fechas de nacimiento no coinciden");
         }
 
         return ok(contextoProveedor);
+    }
 
+    private Resultado<String, ContextoProveedor> generarAutorizacion(ContextoProveedor contextoProveedor) {
+        Poliza poliza = contextoProveedor.getPoliza();
+
+        String autorizacion = "Sin cobertura";
+        if (poliza.getActiva() == 1) {
+            autorizacion = UUID.randomUUID().toString();
+        }
+
+        contextoProveedor.setAutorizacion(autorizacion);
+        return ok(contextoProveedor);
     }
 }

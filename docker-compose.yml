@@ -2,7 +2,7 @@ version: "2"
 services:
   aseguradora:
     extra_hosts:
-      mysql.local: 10.229.180.47
+      mysql.local: 127.0.0.1
     image: "aseguradora:latest"
     ports:
       - "8080:8080"

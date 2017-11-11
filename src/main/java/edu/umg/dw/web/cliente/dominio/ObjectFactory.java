@@ -110,6 +110,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Poliza }
+     * 
+     */
+    public Poliza createPoliza() {
+        return new Poliza();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ObtenerProveedoresResponse }{@code >}}
      * 
      */

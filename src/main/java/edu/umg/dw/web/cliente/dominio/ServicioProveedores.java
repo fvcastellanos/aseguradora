@@ -34,8 +34,8 @@ public interface ServicioProveedores {
     @RequestWrapper(localName = "consultarCoberturaPaciente", targetNamespace = "http://sw.dw.umg.edu/", className = "edu.umg.dw.web.cliente.dominio.ConsultarCoberturaPaciente")
     @ResponseWrapper(localName = "consultarCoberturaPacienteResponse", targetNamespace = "http://sw.dw.umg.edu/", className = "edu.umg.dw.web.cliente.dominio.ConsultarCoberturaPacienteResponse")
     public RespuestaConsultaCobertura consultarCoberturaPaciente(
-        @WebParam(name = "peticionConsultaPaciente", targetNamespace = "")
-        PeticionConsultaPaciente peticionConsultaPaciente);
+            @WebParam(name = "peticionConsultaPaciente", targetNamespace = "")
+                    PeticionConsultaPaciente peticionConsultaPaciente);
 
     /**
      * 
